@@ -16,7 +16,7 @@
     <div class="content-wrapper">
         @include('partials.content-header', ['name' => 'product', 'key' => 'Add'])
 
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -25,12 +25,12 @@
                             @csrf
                             <div class="form-group">
                                 <label>Tên sản phẩm</label>
-                                <input type="text" class="form-control" name="name" placeholder="Nhập tên sản phẩm">
+                                <input type="text" class="form-control" name="name" placeholder="Nhập tên sản phẩm" required>
                             </div>
 
                             <div class="form-group">
                                 <label>Giá sản phẩm</label>
-                                <input type="text" class="form-control" name="price" placeholder="Nhập giá sản phẩm">
+                                <input type="text" class="form-control" name="price" placeholder="Nhập giá sản phẩm" required>
                             </div>
 
                             <div class="form-group">
@@ -45,15 +45,15 @@
 
                             <div class="form-group">
                                 <label>Chọn danh mục</label>
-                                <select class="form-control select2_init" name="category_id">
+                                <select class="form-control select2_init" name="category_id" required>
                                     <option value="">Chọn danh mục</option>
                                     {!! $htmlOption !!}
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label>Nhập tag cho sản phẩm</label>
-                                <select name="tags" class="form-control tags_select_choose" multiple="multiple">
+                                <label>Nhập tags cho sản phẩm</label>
+                                <select name="tags[]" class="form-control tags_select_choose" multiple="multiple">
 
                                 </select>
                             </div>
@@ -67,7 +67,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Nhập nội dung</label>
-                                <textarea name="content" class="form-control tinymce_editor_init" rows="8"></textarea>
+                                <textarea name="contents" class="form-control tinymce_editor_init" rows="8"></textarea>
                             </div>
                         </div>
 

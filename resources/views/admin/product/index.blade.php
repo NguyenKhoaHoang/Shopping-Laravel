@@ -6,6 +6,13 @@
     <title>Product</title>
 @endsection
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('admins/product/index/list.css') }}">
+@endsection
+
+@section('js')
+@endsection
+
 @section('content')
     <div class="content-wrapper">
         @include('partials.content-header', ['name' => 'product', 'key' => 'List'])
@@ -30,15 +37,15 @@
                             </thead>
                             <tbody>
 
-                                {{-- @foreach ($categories as $category) --}}
+                                @foreach ($products as $productItem)
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>Iphone X</td>
-                                        <td>10.500.000</td>
+                                        <th scope="row">{{ $productItem->id }}</th>
+                                        <td>{{ $productItem->name }}</td>
+                                        <td>{{ $productItem->price }}</td>
                                         <td>
-                                            <img src="" alt="">
+                                            <img class="product_image_150_100" src="{{ $productItem->feature_image_path }}" alt="">
                                         </td>
-                                        <td>Điện thoại</td>
+                                        <td>{{ $productItem->category->name }}</td>
                                         <td>
                                             <a href=""
                                                 class="btn btn-default">Edit</a>
@@ -46,14 +53,14 @@
                                                 class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
-                                {{-- @endforeach --}}
+                                @endforeach
 
 
                             </tbody>
                         </table>
                     </div>
                     <div class="col-md-12">
-                        {{-- {!! $categories->links() !!} --}}
+                        {!! $products->links() !!}
                     </div>
 
                 </div>
