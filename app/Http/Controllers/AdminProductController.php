@@ -163,7 +163,7 @@ class AdminProductController extends Controller
             return redirect()->route('product.index');
         } catch (\Exception $exception) {
             DB::rollBack();
-            Log::error("message: " . $exception->getMessage() . ' Line: ' . $exception->getFile());
+            Log::error("message: " . $exception->getMessage() . ' Line: ' . $exception->getLine());
         }
     }
 

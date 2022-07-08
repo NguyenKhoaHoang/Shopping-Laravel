@@ -116,6 +116,24 @@ Route::prefix('admin')->group(function () {
         ]);
     
     });
+
+    //Slider
+    Route::prefix('slider')->group(function () {
+        Route::get('/', [
+            'as' => 'slider.index',
+            'uses' => 'App\Http\Controllers\AdminSliderController@index'
+        ]);
+
+        Route::get('/create', [
+            'as' => 'slider.create',
+            'uses' => 'App\Http\Controllers\AdminSliderController@create'
+        ]);
+
+        Route::post('/store', [
+            'as' => 'slider.store',
+            'uses' => 'App\Http\Controllers\AdminSliderController@store'
+        ]);
+    });
 });
 
 
