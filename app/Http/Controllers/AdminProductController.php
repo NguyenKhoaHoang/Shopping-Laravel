@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Components\Recusive;
+use App\Http\Requests\ProductAddRequest;
+use App\Http\Requests\ProductEditRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
@@ -56,16 +58,13 @@ class AdminProductController extends Controller
         return $htmlOption;
     }
 
-    public function store(Request $request)
+    public function store(ProductAddRequest $request)
     {
         try {
             DB::beginTransaction();
 
-            if (empty($request->contents)) {
-                $contents = "";
-            } else {
-                $contents = $request->contents;
-            }
+            
+            $contents = $request->contents;
             $dataProductCreate = [
                 'name' => $request->name,
                 'price' => $request->price,
@@ -116,16 +115,11 @@ class AdminProductController extends Controller
         return view('admin.product.edit', compact('htmlOption', 'product'));
     }
 
-    public function update($id, Request $request)
+    public function update($id, ProductEditRequest $request)
     {
         try {
             DB::beginTransaction();
-
-            if (empty($request->contents)) {
-                $contents = "";
-            } else {
-                $contents = $request->contents;
-            }
+            $contents = $request->contents;
             $dataProductUpdate = [
                 'name' => $request->name,
                 'price' => $request->price,
@@ -170,6 +164,23 @@ class AdminProductController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             Log::error("message: " . $exception->getMessage() . ' Line: ' . $exception->getFile());
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $this->product->find($id)->delete();
+            return response()->json([
+                'code' => 200,
+                'message' => 'success'
+            ], 200);
+        } catch (\Exception $exception) {
+            Log::error("message: " . $exception->getMessage() . ' Line: ' . $exception->getFile());
+            return response()->json([
+                'code' => 500,
+                'message' => 'fail'
+            ], 500);
         }
     }
 }

@@ -11,6 +11,8 @@
 @endsection
 
 @section('js')
+    <script src="{{ asset('vendors/sweetAlert2/sweetalert2@11.js') }}"></script>
+    <script src="{{ asset('admins/product/index/list.js') }}"></script>
 @endsection
 
 @section('content')
@@ -43,14 +45,16 @@
                                         <td>{{ $productItem->name }}</td>
                                         <td>{{ number_format($productItem->price) }}</td>
                                         <td>
-                                            <img class="product_image_150_100" src="{{ $productItem->feature_image_path }}" alt="">
+                                            <img class="product_image_150_100"
+                                                src="{{ $productItem->feature_image_path }}" alt="">
                                         </td>
                                         <td>{{ optional($productItem->category)->name }}</td>
                                         <td>
-                                            <a href="{{ route('product.edit',['id'=>$productItem->id]) }}"
+                                            <a href="{{ route('product.edit', ['id' => $productItem->id]) }}"
                                                 class="btn btn-default">Edit</a>
                                             <a href=""
-                                                class="btn btn-danger">Delete</a>
+                                                data-url="{{ route('product.delete', ['id' => $productItem->id]) }}"
+                                                class="btn btn-danger action_delete">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
