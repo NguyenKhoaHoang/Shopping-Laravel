@@ -108,4 +108,68 @@ class AdminProductController extends Controller
             Log::error("message: " . $exception->getMessage() . ' Line: ' . $exception->getFile());
         }
     }
+
+    public function edit($id)
+    {
+        $product = $this->product->find($id);
+        $htmlOption = $this->getCategory($product->category_id);
+        return view('admin.product.edit', compact('htmlOption', 'product'));
+    }
+
+    public function update($id, Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            if (empty($request->contents)) {
+                $contents = "";
+            } else {
+                $contents = $request->contents;
+            }
+            $dataProductUpdate = [
+                'name' => $request->name,
+                'price' => $request->price,
+                'content' => $contents,
+                'user_id' => auth()->id(),
+                'category_id' => $request->category_id
+            ];
+            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'product');
+            if (!empty($dataUploadFeatureImage)) {
+                $dataProductUpdate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
+                $dataProductUpdate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
+            }
+            $this->product->find($id)->update($dataProductUpdate);
+            $product = $this->product->find($id);
+            //Insert data to product_images
+            if ($request->hasFile('image_path')) {
+                $this->productImage->where('product_id', $id)->delete();
+                foreach ($request->image_path as $fileItem) {
+                    $dataProductImageDetail = $this->storageTraitUploadMultiple($fileItem, 'product');
+                    $product->images()->create([
+                        'image_path' => $dataProductImageDetail['file_path'],
+                        'image_name' => $dataProductImageDetail['file_name']
+                    ]);
+                }
+            }
+
+            //Insert tags for product
+            if (!empty($request->tags)) {
+                foreach ($request->tags as $tagItem) {
+
+                    //Insert to tags
+                    $tagInstance = $this->tag->firstOrCreate(['name' => $tagItem]);
+                    $tagIds[] = $tagInstance->id;
+                }
+                //Delete record that tag_id not have in array tagIDs of table product_tags have product_id of $product
+                //and create new one if dont have in db
+                $product->tags()->sync($tagIds);
+            }
+
+            DB::commit();
+            return redirect()->route('product.index');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error("message: " . $exception->getMessage() . ' Line: ' . $exception->getFile());
+        }
+    }
 }
