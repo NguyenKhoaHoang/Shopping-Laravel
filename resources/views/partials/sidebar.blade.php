@@ -66,10 +66,10 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('slider.index') }}" class="nav-link">
+                    <a href="{{ route('settings.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Slider
+                            Settings
                             <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
