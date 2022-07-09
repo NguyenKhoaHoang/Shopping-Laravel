@@ -8,6 +8,12 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('admins/slider/index/list.css') }}">
+    <link rel="stylesheet" href="">
+@endsection
+
+@section('js')
+    <script src="{{ asset('vendors/sweetAlert2/sweetalert2@11.js') }}"></script>
+    <script src="{{ asset('admins/slider/index/list.js') }}"></script>
 @endsection
 
 @section('content')
@@ -42,10 +48,9 @@
                                             <img class="slider_image" src="{{ $slider->image_path }}" alt="">
                                         </td>
                                         <td>
-                                            <a href=""
+                                            <a href="{{ route('slider.edit', ['id' => $slider->id]) }}"
                                                 class="btn btn-default">Edit</a>
-                                            <a href=""
-                                                class="btn btn-danger">Delete</a>
+                                            <a href="" data-url="{{ route('slider.delete', ['id' => $slider->id]) }}" class="btn btn-danger action_delete">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
