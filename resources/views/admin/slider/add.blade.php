@@ -22,7 +22,7 @@
                             @csrf
                             <div class="form-group @error('name') is-invalid @enderror">
                                 <label>Tên slider</label>
-                                <input type="text" class="form-control" name="name" placeholder="Nhập tên menu" value="{{ old('name') }}">
+                                <input type="text" class="form-control" name="name" placeholder="Nhập tên slider" value="{{ old('name') }}">
                                 @error('name')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
