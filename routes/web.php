@@ -184,7 +184,7 @@ Route::prefix('admin')->group(function () {
         ]);
     });
 
-    //Settings
+    //Users
     Route::prefix('users')->group(function () {
         Route::get('/', [
             'as' => 'users.index',
@@ -216,6 +216,20 @@ Route::prefix('admin')->group(function () {
             'uses' => 'App\Http\Controllers\AdminUserController@delete'
         ]);
 
+        
+    });
+
+    //Roles
+    Route::prefix('roles')->group(function () {
+        Route::get('/', [
+            'as' => 'roles.index',
+            'uses' => 'App\Http\Controllers\AdminRoleController@index'
+        ]);
+
+        Route::get('/create', [
+            'as' => 'roles.create',
+            'uses' => 'App\Http\Controllers\AdminRoleController@create'
+        ]);
         
     });
 });
