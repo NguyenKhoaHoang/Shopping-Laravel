@@ -43,9 +43,9 @@
                                         <td>{{ $role->name }}</td>
                                         <td>{{ $role->display_name }}</td>
                                         <td>
-                                            <a href="{{ route('slider.edit', ['id' => $role->id]) }}"
+                                            <a href="{{ route('roles.edit', ['id' => $role->id]) }}"
                                                 class="btn btn-default">Edit</a>
-                                            <a href="" data-url="{{ route('slider.delete', ['id' => $role->id]) }}" class="btn btn-danger action_delete">Delete</a>
+                                            <a href="" data-url="{{ route('roles.delete', ['id' => $role->id]) }}" class="btn btn-danger action_delete">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
