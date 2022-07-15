@@ -83,4 +83,7 @@ class AdminRoleController extends Controller
     {
         return $this->deleteModelTrait($id, $this->role);
     }
+
+    
+
 }

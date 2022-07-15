@@ -13,19 +13,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/admin', 'App\Http\Controllers\AdminController@loginAdmin');
-Route::post('/admin', 'App\Http\Controllers\AdminController@postLoginAdmin');
+// Route::get('/', 'App\Http\Controllers\AdminController@loginAdmin');
+// Route::post('/', 'App\Http\Controllers\AdminController@postLoginAdmin');
 
 Route::get('/home', function () {
     return view('home');
 });
 
 Route::prefix('admin')->group(function () {
+    Route::get('/', [
+        'as' => 'admin.login',
+        'uses' => 'App\Http\Controllers\AdminController@loginAdmin'
+    ]);
+    Route::post('/', [
+        'as' => 'admin.post-login',
+        'uses' => 'App\Http\Controllers\AdminController@postLoginAdmin'
+    ]);
+
+    Route::get('/logout', [
+        'as' => 'admin.logout',
+        'uses' => 'App\Http\Controllers\AdminController@logout'
+    ]);
+
     //Categoris
     Route::prefix('categories')->group(function () {
         Route::get('/', [
             'as' => 'categories.index',
-            'uses' => 'App\Http\Controllers\CategoryController@index'
+            'uses' => 'App\Http\Controllers\CategoryController@index',
+            'middleware'=>'can:category-list'
         ]);
     
         Route::get('/create', [
@@ -54,7 +69,9 @@ Route::prefix('admin')->group(function () {
     Route::prefix('menus')->group(function () {
         Route::get('/', [
             'as' => 'menus.index',
-            'uses' => 'App\Http\Controllers\MenuController@index'
+            'uses' => 'App\Http\Controllers\MenuController@index',
+            'middleware'=>'can:menu-list'
+
         ]);
     
         Route::get('/create', [
@@ -250,6 +267,24 @@ Route::prefix('admin')->group(function () {
             'as' => 'roles.delete',
             'uses' => 'App\Http\Controllers\AdminRoleController@delete'
         ]);
+        
+    });
+
+    //Permissions
+    Route::prefix('permissions')->group(function () {
+        Route::get('/create', [
+            'as' => 'permissions.create',
+            'uses' => 'App\Http\Controllers\AdminPermissionController@create'
+        ]);
+
+        Route::post('/store', [
+            'as' => 'permissions.store',
+            'uses' => 'App\Http\Controllers\AdminPermissionController@store'
+        ]);
+
+
+
+        
         
     });
 });
