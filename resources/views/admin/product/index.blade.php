@@ -50,8 +50,11 @@
                                         </td>
                                         <td>{{ optional($productItem->category)->name }}</td>
                                         <td>
-                                            <a href="{{ route('product.edit', ['id' => $productItem->id]) }}"
-                                                class="btn btn-default">Edit</a>
+                                            @can('product-edit', $productItem->id)
+                                                <a href="{{ route('product.edit', ['id' => $productItem->id]) }}"
+                                                    class="btn btn-default">Edit</a>
+                                            @endcan
+
                                             <a href=""
                                                 data-url="{{ route('product.delete', ['id' => $productItem->id]) }}"
                                                 class="btn btn-danger action_delete">Delete</a>

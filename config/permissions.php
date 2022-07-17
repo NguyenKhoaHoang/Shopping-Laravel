@@ -2,8 +2,11 @@
 
 return[
     'access'=>[
-        'list-category'=>'list_category',
-        'list-menu'=>'list_menu',
+        'list-category'=>'category_list',
+        'add-category'=>'category_add',
+        'edit-category'=>'category_edit',
+        'delete-category'=>'category_delete',
+        'list-menu'=>'menu_list',
     ],
     'table_module'=>[
         'category',
