@@ -101,7 +101,7 @@ class AdminProductController extends Controller
                 }
                 $product->tags()->attach($tagIds);
             }
-
+            
             DB::commit();
             return redirect()->route('product.index');
         } catch (\Exception $exception) {
@@ -159,6 +159,9 @@ class AdminProductController extends Controller
                 //Delete record that tag_id not have in array tagIDs of table product_tags have product_id of $product
                 //and create new one if dont have in db
                 $product->tags()->sync($tagIds);
+            }
+            else{
+                $product->tags()->detach();
             }
 
             DB::commit();
